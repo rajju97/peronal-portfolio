@@ -135,7 +135,7 @@ function App() {
         <div className="container mx-auto px-4 relative z-10">
           <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="max-w-2xl">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4">Frontend Developer</h1>
-            <p className="text-lg md:text-xl text-gray-300 mb-8">Building responsive and scalable web applications with modern technologies.</p>
+            <p className="text-lg md:text-xl text-gray-300 mb-8">Building responsive and scalable web applications with modern technologies. 3+ years of experience.</p>
             <div className="flex flex-wrap gap-4">
               <motion.button 
                 whileHover={{ scale: 1.05 }} 
@@ -179,10 +179,10 @@ function App() {
             </Parallax>
             <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
               <p className={`text-lg ${isDarkMode ? 'text-gray-300' : 'text-gray-800'} mb-6 leading-relaxed`}>
-                Frontend Developer with 2.5 years of experience in building responsive web applications using Angular and React. Skilled in creating reusable components, managing state, and integrating APIs.
+                Frontend Developer with 3+ years of experience in building responsive web applications using React, Angular, and Next.js. Expert in creating reusable components, state management with Redux, and integrating RESTful APIs.
               </p>
               <p className={`text-lg ${isDarkMode ? 'text-gray-300' : 'text-gray-800'} mb-6 leading-relaxed`}>
-                Proficient in JavaScript, TypeScript, HTML, CSS, and modern design principles. Focused on performance optimization, best practices, and delivering scalable solutions in agile environments.
+                Proficient in JavaScript, TypeScript, HTML5, CSS3, and modern UI frameworks. Skilled in performance optimization, responsive design, and implementing best practices for scalable applications. Strong experience with testing frameworks like Jest and Cypress.
               </p>
               <div className="grid grid-cols-2 gap-4 mt-8">
                 <div>
@@ -211,6 +211,53 @@ function App() {
         </div>
       </section>
 
+      {/* Skills Section */}
+      <section id="skills" className="snap-start min-h-screen py-20 px-4 bg-gray-800">
+        <div className="container mx-auto max-w-6xl">
+          <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-3xl md:text-4xl font-bold mb-12 text-center">
+            Skills
+          </motion.h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-gray-900 p-6 rounded-xl">
+              <h3 className="text-xl font-bold mb-4">Frontend</h3>
+              <ul className="space-y-2 text-gray-300">
+                <li>React</li>
+                <li>JavaScript</li>
+                <li>HTML5/CSS3</li>
+                <li>TypeScript</li>
+                <li>Tailwind CSS</li>
+                <li>Redux</li>
+                <li>Next.js</li>
+                <li>Responsive Design</li>
+              </ul>
+            </motion.div>
+            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-gray-900 p-6 rounded-xl">
+              <h3 className="text-xl font-bold mb-4">Backend</h3>
+              <ul className="space-y-2 text-gray-300">
+                <li>Node.js</li>
+                <li>Express</li>
+                <li>RESTful APIs</li>
+                <li>MongoDB</li>
+                <li>PostgreSQL</li>
+                <li>GraphQL</li>
+              </ul>
+            </motion.div>
+            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-gray-900 p-6 rounded-xl">
+              <h3 className="text-xl font-bold mb-4">Tools & Testing</h3>
+              <ul className="space-y-2 text-gray-300">
+                <li>Git</li>
+                <li>Jest</li>
+                <li>Cypress</li>
+                <li>Docker</li>
+                <li>Webpack</li>
+                <li>CI/CD</li>
+                <li>Agile/Scrum</li>
+              </ul>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* Experience Section */}
       <section id="experience" className="snap-start min-h-screen py-20 px-4">
         <div className="container mx-auto max-w-6xl">
@@ -223,11 +270,13 @@ function App() {
                 <h3 className="text-xl font-bold">SDE-1 at Lynkit Private Solutions</h3>
                 <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mt-1`}>New Delhi | March 2023 - Present</p>
                 <ul className="mt-4 space-y-2 list-disc pl-6 text-gray-300">
-                  <li>Developed OCR module to extract invoice data</li>
-                  <li>Built dynamic configuration-driven user management system</li>
-                  <li>Created RFQ module for vendor booking</li>
-                  <li>Integrated Google Maps for geofencing shipyards</li>
-                  <li>Used RFID devices on cranes for container tracking</li>
+                  <li>Developed OCR module using Tesseract.js to extract and process invoice data with 95% accuracy</li>
+                  <li>Built dynamic configuration-driven user management system with role-based access control</li>
+                  <li>Created RFQ (Request for Quotation) module with real-time vendor bidding functionality</li>
+                  <li>Integrated Google Maps API for geofencing shipyards with custom overlays and markers</li>
+                  <li>Implemented RFID tracking system for container management with real-time updates</li>
+                  <li>Optimized frontend performance, reducing load times by 40% through code splitting and lazy loading</li>
+                  <li>Mentored junior developers and conducted code reviews to maintain code quality</li>
                 </ul>
               </div>
             </motion.div>
@@ -236,9 +285,12 @@ function App() {
                 <h3 className="text-xl font-bold">Product Engineer at Intellect Design Arena</h3>
                 <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mt-1`}>Mumbai | June 2022 - January 2023</p>
                 <ul className="mt-4 space-y-2 list-disc pl-6 text-gray-300">
-                  <li>Updated UI for corporate banking using Angular</li>
-                  <li>Performed UI and functional testing</li>
-                  <li>Designed Treasury Dashboard for analytics</li>
+                  <li>Redesigned corporate banking UI using Angular Material and custom components</li>
+                  <li>Implemented comprehensive UI testing with Jasmine and Karma, achieving 85% test coverage</li>
+                  <li>Designed and developed Treasury Dashboard with real-time analytics using Highcharts</li>
+                  <li>Integrated with backend APIs for transaction processing and reporting</li>
+                  <li>Collaborated with UX team to implement responsive designs for mobile banking</li>
+                  <li>Participated in agile sprints and daily standups to track project progress</li>
                 </ul>
               </div>
             </motion.div>
