@@ -42,6 +42,13 @@ const CloseIcon = () => (
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const [isDarkMode, setIsDarkMode] = useState(true);
+  
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+    document.documentElement.classList.toggle('dark', isDarkMode);
+    document.documentElement.classList.toggle('light', !isDarkMode);
+  };
 
   const handleScroll = (e) => {
     const scrollTop = e.currentTarget.scrollTop;
@@ -60,17 +67,33 @@ function App() {
   };
 
   return (
-    <div className="bg-dark text-white overflow-y-scroll h-screen snap-y snap-mandatory" onScroll={handleScroll}>
+    <div className={`${isDarkMode ? 'bg-gradient-to-br from-dark via-gray-900 to-gray-800' : 'bg-gradient-to-br from-white via-gray-100 to-gray-200'} ${isDarkMode ? 'text-white' : 'text-gray-900'} overflow-y-scroll h-screen snap-y snap-mandatory`} onScroll={handleScroll}>
       
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-dark bg-opacity-90 backdrop-filter backdrop-blur-lg transition-all duration-300">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-dark bg-opacity-90 backdrop-filter backdrop-blur-lg transition-all duration-300 dark:bg-dark dark:bg-opacity-90">
         <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-          <motion.h1 initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="text-xl font-bold tracking-tight">
+          <motion.h1 initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="text-xl font-bold tracking-tight dark:text-white text-gray-900">
             Rajveer Singh
           </motion.h1>
+          
+          <button 
+            onClick={toggleTheme}
+            className="p-2 rounded-full bg-gray-700 hover:bg-blue-600 dark:hover:bg-blue-600 transition-colors"
+            aria-label="Toggle dark mode"
+          >
+            {isDarkMode ? (
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+            ) : (
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+              </svg>
+            )}
+          </button>
 
           {/* Mobile Menu Button */}
-          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="md:hidden p-2 rounded-md hover:bg-gray-800 transition-colors">
+          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="md:hidden p-2 rounded-md hover:bg-gray-800 dark:hover:bg-gray-800 transition-colors">
             {isMenuOpen ? <CloseIcon /> : <MenuIcon />}
           </button>
 
@@ -78,7 +101,7 @@ function App() {
           <ul className="hidden md:flex space-x-8">
             {["home", "about", "experience", "projects", "contact"].map((section) => (
               <li key={section}>
-                <a href={`#${section}`} className={`capitalize hover:text-blue-400 ${activeSection === section ? "text-blue-400 font-medium" : ""}`}>
+                <a href={`#${section}`} onClick={(e) => { e.preventDefault(); document.getElementById(section).scrollIntoView({ behavior: 'smooth' }); }} className={`capitalize hover:text-blue-400 ${activeSection === section ? "text-blue-400 font-medium" : ""}`}>
                   {section}
                 </a>
               </li>
@@ -92,7 +115,7 @@ function App() {
             <motion.ul initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="md:hidden bg-gray-800 px-4 pb-4 space-y-3">
               {["home", "about", "experience", "projects", "contact"].map((section) => (
                 <li key={section}>
-                  <a href={`#${section}`} onClick={() => setIsMenuOpen(false)} className={`block py-2 capitalize hover:text-blue-400 ${activeSection === section ? "text-blue-400 font-medium" : ""}`}>
+                  <a href={`#${section}`} onClick={(e) => { e.preventDefault(); setIsMenuOpen(false); document.getElementById(section).scrollIntoView({ behavior: 'smooth' }); }} className={`block py-2 capitalize hover:text-blue-400 ${activeSection === section ? "text-blue-400 font-medium" : ""}`}>
                     {section}
                   </a>
                 </li>
@@ -106,7 +129,7 @@ function App() {
       <section id="home" className="snap-start min-h-screen pt-20 flex flex-col justify-center relative overflow-hidden">
         <Parallax speed={-10}>
           <img src="https://picsum.photos/seed/hero/1920/1080 " alt="Hero" className="absolute inset-0 w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-b from-dark to-transparent opacity-80"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-dark/90 via-dark/70 to-transparent opacity-90"></div>
         </Parallax>
 
         <div className="container mx-auto px-4 relative z-10">
@@ -114,12 +137,29 @@ function App() {
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4">Frontend Developer</h1>
             <p className="text-lg md:text-xl text-gray-300 mb-8">Building responsive and scalable web applications with modern technologies.</p>
             <div className="flex flex-wrap gap-4">
-              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-lg">
+              <motion.button 
+                whileHover={{ scale: 1.05 }} 
+                whileTap={{ scale: 0.95 }} 
+                className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-lg"
+                onClick={() => {
+                  const link = document.createElement('a');
+                  link.href = '/resume.pdf';
+                  link.download = 'Rajveer_Singh_Resume.pdf';
+                  document.body.appendChild(link);
+                  link.click();
+                  document.body.removeChild(link);
+                }}
+              >
                 Download Resume
               </motion.button>
-              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="px-6 py-3 border border-gray-600 hover:border-blue-500 text-gray-300 hover:text-white rounded-lg">
-                View Projects
-              </motion.button>
+              <motion.button 
+              whileHover={{ scale: 1.05 }} 
+              whileTap={{ scale: 0.95 }} 
+              className="px-6 py-3 border border-gray-600 hover:border-blue-500 text-gray-300 hover:text-white rounded-lg"
+              onClick={() => document.getElementById('projects').scrollIntoView({ behavior: 'smooth' })}
+            >
+              View Projects
+            </motion.button>
             </div>
           </motion.div>
         </div>
@@ -138,27 +178,27 @@ function App() {
               </div>
             </Parallax>
             <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-              <p className="text-lg text-gray-300 mb-6 leading-relaxed">
+              <p className={`text-lg ${isDarkMode ? 'text-gray-300' : 'text-gray-800'} mb-6 leading-relaxed`}>
                 Frontend Developer with 2.5 years of experience in building responsive web applications using Angular and React. Skilled in creating reusable components, managing state, and integrating APIs.
               </p>
-              <p className="text-lg text-gray-300 mb-6 leading-relaxed">
+              <p className={`text-lg ${isDarkMode ? 'text-gray-300' : 'text-gray-800'} mb-6 leading-relaxed`}>
                 Proficient in JavaScript, TypeScript, HTML, CSS, and modern design principles. Focused on performance optimization, best practices, and delivering scalable solutions in agile environments.
               </p>
               <div className="grid grid-cols-2 gap-4 mt-8">
                 <div>
-                  <h3 className="text-sm uppercase text-gray-400 mb-2">Email</h3>
+                  <h3 className={`text-sm uppercase ${isDarkMode ? 'text-gray-400' : 'text-gray-700'} mb-2`}>Email</h3>
                   <p className="flex items-center gap-2"><MailIcon /> rajveermbic@gmail.com</p>
                 </div>
                 <div>
-                  <h3 className="text-sm uppercase text-gray-400 mb-2">Phone</h3>
+                  <h3 className={`text-sm uppercase ${isDarkMode ? 'text-gray-400' : 'text-gray-700'} mb-2`}>Phone</h3>
                   <p className="flex items-center gap-2"><PhoneIcon /> +91 6388192639</p>
                 </div>
                 <div>
-                  <h3 className="text-sm uppercase text-gray-400 mb-2">Location</h3>
+                  <h3 className={`text-sm uppercase ${isDarkMode ? 'text-gray-400' : 'text-gray-700'} mb-2`}>Location</h3>
                   <p>New Delhi, India</p>
                 </div>
                 <div>
-                  <h3 className="text-sm uppercase text-gray-400 mb-2">Languages</h3>
+                  <h3 className={`text-sm uppercase ${isDarkMode ? 'text-gray-400' : 'text-gray-700'} mb-2`}>Languages</h3>
                   <p>English, Hindi</p>
                 </div>
               </div>
@@ -181,7 +221,7 @@ function App() {
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-gray-800 p-6 rounded-xl relative">
               <div className="border-l-4 border-blue-500 pl-4">
                 <h3 className="text-xl font-bold">SDE-1 at Lynkit Private Solutions</h3>
-                <p className="text-gray-400 mt-1">New Delhi | March 2023 - Present</p>
+                <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mt-1`}>New Delhi | March 2023 - Present</p>
                 <ul className="mt-4 space-y-2 list-disc pl-6 text-gray-300">
                   <li>Developed OCR module to extract invoice data</li>
                   <li>Built dynamic configuration-driven user management system</li>
@@ -194,7 +234,7 @@ function App() {
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-gray-800 p-6 rounded-xl relative">
               <div className="border-l-4 border-blue-500 pl-4">
                 <h3 className="text-xl font-bold">Product Engineer at Intellect Design Arena</h3>
-                <p className="text-gray-400 mt-1">Mumbai | June 2022 - January 2023</p>
+                <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mt-1`}>Mumbai | June 2022 - January 2023</p>
                 <ul className="mt-4 space-y-2 list-disc pl-6 text-gray-300">
                   <li>Updated UI for corporate banking using Angular</li>
                   <li>Performed UI and functional testing</li>
