@@ -67,7 +67,7 @@ function App() {
   };
 
   return (
-    <div className={`${isDarkMode ? 'bg-gradient-to-br from-dark via-gray-900 to-gray-800' : 'bg-gradient-to-br from-white via-gray-100 to-gray-200'} ${isDarkMode ? 'text-white' : 'text-gray-900'} overflow-y-scroll h-screen snap-y snap-mandatory`} onScroll={handleScroll}>
+    <div className={`${isDarkMode ? 'bg-gradient-to-br from-dark via-gray-900 to-gray-800' : 'bg-gradient-to-br from-sky-100 via-slate-50 to-white'} ${isDarkMode ? 'text-white' : 'text-gray-900'} overflow-y-scroll h-screen snap-y snap-mandatory`} onScroll={handleScroll}>
       
       {/* Navigation */}
       <nav className={`fixed top-0 left-0 right-0 z-50 ${isDarkMode ? 'bg-dark bg-opacity-90' : 'bg-white bg-opacity-90'} backdrop-filter backdrop-blur-lg transition-all duration-300`}>
@@ -134,7 +134,7 @@ function App() {
 
         <div className="container mx-auto px-4 relative z-10">
           <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="max-w-2xl">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4">Frontend Developer</h1>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 text-white">Frontend Developer</h1>
             <p className="text-lg md:text-xl text-gray-300 mb-8">Building responsive and scalable web applications with modern technologies. 3+ years of experience.</p>
             <div className="flex flex-wrap gap-4">
               <motion.button 
