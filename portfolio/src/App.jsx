@@ -70,15 +70,15 @@ function App() {
     <div className={`${isDarkMode ? 'bg-gradient-to-br from-dark via-gray-900 to-gray-800' : 'bg-gradient-to-br from-white via-gray-100 to-gray-200'} ${isDarkMode ? 'text-white' : 'text-gray-900'} overflow-y-scroll h-screen snap-y snap-mandatory`} onScroll={handleScroll}>
       
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-dark bg-opacity-90 backdrop-filter backdrop-blur-lg transition-all duration-300 dark:bg-dark dark:bg-opacity-90">
+      <nav className={`fixed top-0 left-0 right-0 z-50 ${isDarkMode ? 'bg-dark bg-opacity-90' : 'bg-white bg-opacity-90'} backdrop-filter backdrop-blur-lg transition-all duration-300`}>
         <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-          <motion.h1 initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="text-xl font-bold tracking-tight dark:text-white text-gray-900">
+          <motion.h1 initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className={`text-xl font-bold tracking-tight ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
             Rajveer Singh
           </motion.h1>
           
           <button 
             onClick={toggleTheme}
-            className="p-2 rounded-full bg-gray-700 hover:bg-blue-600 dark:hover:bg-blue-600 transition-colors"
+            className={`p-2 rounded-full ${isDarkMode ? 'bg-gray-700 hover:bg-blue-600' : 'bg-gray-200 hover:bg-blue-300'} transition-colors`}
             aria-label="Toggle dark mode"
           >
             {isDarkMode ? (
@@ -93,7 +93,7 @@ function App() {
           </button>
 
           {/* Mobile Menu Button */}
-          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="md:hidden p-2 rounded-md hover:bg-gray-800 dark:hover:bg-gray-800 transition-colors">
+          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className={`md:hidden p-2 rounded-md ${isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-200'} transition-colors`}>
             {isMenuOpen ? <CloseIcon /> : <MenuIcon />}
           </button>
 
@@ -101,7 +101,7 @@ function App() {
           <ul className="hidden md:flex space-x-8">
             {["home", "about", "experience", "projects", "contact"].map((section) => (
               <li key={section}>
-                <a href={`#${section}`} onClick={(e) => { e.preventDefault(); document.getElementById(section).scrollIntoView({ behavior: 'smooth' }); }} className={`capitalize hover:text-blue-400 ${activeSection === section ? "text-blue-400 font-medium" : ""}`}>
+                <a href={`#${section}`} onClick={(e) => { e.preventDefault(); document.getElementById(section).scrollIntoView({ behavior: 'smooth' }); }} className={`capitalize ${isDarkMode ? 'hover:text-blue-400' : 'text-gray-700 hover:text-blue-500'} ${activeSection === section ? (isDarkMode ? "text-blue-400 font-medium" : "text-blue-600 font-medium") : (isDarkMode ? "text-white" : "text-gray-700")}`}>
                   {section}
                 </a>
               </li>
@@ -112,10 +112,10 @@ function App() {
         {/* Mobile Menu */}
         <AnimatePresence>
           {isMenuOpen && (
-            <motion.ul initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="md:hidden bg-gray-800 px-4 pb-4 space-y-3">
+            <motion.ul initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className={`md:hidden ${isDarkMode ? 'bg-gray-800' : 'bg-gray-100'} px-4 pb-4 space-y-3`}>
               {["home", "about", "experience", "projects", "contact"].map((section) => (
                 <li key={section}>
-                  <a href={`#${section}`} onClick={(e) => { e.preventDefault(); setIsMenuOpen(false); document.getElementById(section).scrollIntoView({ behavior: 'smooth' }); }} className={`block py-2 capitalize hover:text-blue-400 ${activeSection === section ? "text-blue-400 font-medium" : ""}`}>
+                  <a href={`#${section}`} onClick={(e) => { e.preventDefault(); setIsMenuOpen(false); document.getElementById(section).scrollIntoView({ behavior: 'smooth' }); }} className={`block py-2 capitalize ${isDarkMode ? 'hover:text-blue-400' : 'text-gray-700 hover:text-blue-500'} ${activeSection === section ? (isDarkMode ? "text-blue-400 font-medium" : "text-blue-600 font-medium") : (isDarkMode ? "text-white" : "text-gray-700")}`}>
                     {section}
                   </a>
                 </li>
@@ -155,7 +155,7 @@ function App() {
               <motion.button 
               whileHover={{ scale: 1.05 }} 
               whileTap={{ scale: 0.95 }} 
-              className="px-6 py-3 border border-gray-600 hover:border-blue-500 text-gray-300 hover:text-white rounded-lg"
+              className={`px-6 py-3 border ${isDarkMode ? 'border-gray-600 hover:border-blue-500 text-gray-300 hover:text-white' : 'border-gray-400 hover:border-blue-600 text-gray-700 hover:text-black'} rounded-lg`}
               onClick={() => document.getElementById('projects').scrollIntoView({ behavior: 'smooth' })}
             >
               View Projects
@@ -166,7 +166,7 @@ function App() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="snap-start min-h-screen py-20 px-4 bg-gray-800">
+      <section id="about" className={`snap-start min-h-screen py-20 px-4 ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
         <div className="container mx-auto max-w-6xl">
           <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-3xl md:text-4xl font-bold mb-12 text-center">
             About Me
@@ -203,8 +203,8 @@ function App() {
                 </div>
               </div>
               <div className="mt-8 flex gap-4">
-                <a href="#" className="p-2 rounded-full bg-gray-700 hover:bg-blue-600 transition-colors"><LinkedInIcon /></a>
-                <a href="#" className="p-2 rounded-full bg-gray-700 hover:bg-blue-600 transition-colors"><GitHubIcon /></a>
+                <a href="#" className={`p-2 rounded-full ${isDarkMode ? 'bg-gray-700 hover:bg-blue-600' : 'bg-gray-200 hover:bg-blue-300'} transition-colors`}><LinkedInIcon /></a>
+                <a href="#" className={`p-2 rounded-full ${isDarkMode ? 'bg-gray-700 hover:bg-blue-600' : 'bg-gray-200 hover:bg-blue-300'} transition-colors`}><GitHubIcon /></a>
               </div>
             </motion.div>
           </div>
@@ -212,15 +212,15 @@ function App() {
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="snap-start min-h-screen py-20 px-4 bg-gray-800">
+      <section id="skills" className={`snap-start min-h-screen py-20 px-4 ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
         <div className="container mx-auto max-w-6xl">
           <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-3xl md:text-4xl font-bold mb-12 text-center">
             Skills
           </motion.h2>
           <div className="grid md:grid-cols-3 gap-8">
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-gray-900 p-6 rounded-xl">
+            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className={`${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'} p-6 rounded-xl`}>
               <h3 className="text-xl font-bold mb-4">Frontend</h3>
-              <ul className="space-y-2 text-gray-300">
+              <ul className={`space-y-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                 <li>React</li>
                 <li>JavaScript</li>
                 <li>HTML5/CSS3</li>
@@ -231,9 +231,9 @@ function App() {
                 <li>Responsive Design</li>
               </ul>
             </motion.div>
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-gray-900 p-6 rounded-xl">
+            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className={`${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'} p-6 rounded-xl`}>
               <h3 className="text-xl font-bold mb-4">Backend</h3>
-              <ul className="space-y-2 text-gray-300">
+              <ul className={`space-y-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                 <li>Node.js</li>
                 <li>Express</li>
                 <li>RESTful APIs</li>
@@ -242,9 +242,9 @@ function App() {
                 <li>GraphQL</li>
               </ul>
             </motion.div>
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-gray-900 p-6 rounded-xl">
+            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className={`${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'} p-6 rounded-xl`}>
               <h3 className="text-xl font-bold mb-4">Tools & Testing</h3>
-              <ul className="space-y-2 text-gray-300">
+              <ul className={`space-y-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                 <li>Git</li>
                 <li>Jest</li>
                 <li>Cypress</li>
@@ -265,11 +265,11 @@ function App() {
             Work Experience
           </motion.h2>
           <div className="space-y-12">
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-gray-800 p-6 rounded-xl relative">
+            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className={`${isDarkMode ? 'bg-gray-800' : 'bg-white'} p-6 rounded-xl relative shadow-lg`}>
               <div className="border-l-4 border-blue-500 pl-4">
                 <h3 className="text-xl font-bold">SDE-1 at Lynkit Private Solutions</h3>
                 <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mt-1`}>New Delhi | March 2023 - Present</p>
-                <ul className="mt-4 space-y-2 list-disc pl-6 text-gray-300">
+                <ul className={`mt-4 space-y-2 list-disc pl-6 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                   <li>Developed OCR module using Tesseract.js to extract and process invoice data with 95% accuracy</li>
                   <li>Built dynamic configuration-driven user management system with role-based access control</li>
                   <li>Created RFQ (Request for Quotation) module with real-time vendor bidding functionality</li>
@@ -280,11 +280,11 @@ function App() {
                 </ul>
               </div>
             </motion.div>
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-gray-800 p-6 rounded-xl relative">
+            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className={`${isDarkMode ? 'bg-gray-800' : 'bg-white'} p-6 rounded-xl relative shadow-lg`}>
               <div className="border-l-4 border-blue-500 pl-4">
                 <h3 className="text-xl font-bold">Product Engineer at Intellect Design Arena</h3>
                 <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mt-1`}>Mumbai | June 2022 - January 2023</p>
-                <ul className="mt-4 space-y-2 list-disc pl-6 text-gray-300">
+                <ul className={`mt-4 space-y-2 list-disc pl-6 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                   <li>Redesigned corporate banking UI using Angular Material and custom components</li>
                   <li>Implemented comprehensive UI testing with Jasmine and Karma, achieving 85% test coverage</li>
                   <li>Designed and developed Treasury Dashboard with real-time analytics using Highcharts</li>
@@ -299,25 +299,25 @@ function App() {
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="snap-start min-h-screen py-20 px-4 bg-gray-800">
+      <section id="projects" className={`snap-start min-h-screen py-20 px-4 ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
         <div className="container mx-auto max-w-6xl">
           <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-3xl md:text-4xl font-bold mb-12 text-center">
             Personal Projects
           </motion.h2>
           <div className="grid md:grid-cols-2 gap-8">
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-gray-900 rounded-xl overflow-hidden group">
+            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className={`${isDarkMode ? 'bg-gray-900' : 'bg-gray-50 shadow-lg'} rounded-xl overflow-hidden group`}>
               <div className="h-48 overflow-hidden">
                 <img src="https://picsum.photos/seed/project1/800/400 " alt="Agri E-commerce" className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" />
               </div>
               <div className="p-6">
                 <h3 className="text-xl font-bold mb-2">Agri E-commerce Website</h3>
-                <p className="text-gray-400 mb-4">Full-stack e-commerce platform for agricultural products.</p>
+                <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-700'} mb-4`}>Full-stack e-commerce platform for agricultural products.</p>
                 <div className="flex flex-wrap gap-2 mb-4">
-                  <span className="bg-blue-900/50 px-2 py-1 rounded text-sm">React</span>
-                  <span className="bg-blue-900/50 px-2 py-1 rounded text-sm">Node.js</span>
-                  <span className="bg-blue-900/50 px-2 py-1 rounded text-sm">MongoDB</span>
+                  <span className={`${isDarkMode ? 'bg-blue-900/50' : 'bg-blue-100 text-blue-700'} px-2 py-1 rounded text-sm`}>React</span>
+                  <span className={`${isDarkMode ? 'bg-blue-900/50' : 'bg-blue-100 text-blue-700'} px-2 py-1 rounded text-sm`}>Node.js</span>
+                  <span className={`${isDarkMode ? 'bg-blue-900/50' : 'bg-blue-100 text-blue-700'} px-2 py-1 rounded text-sm`}>MongoDB</span>
                 </div>
-                <a href="#" className="text-blue-400 hover:text-blue-300 inline-flex items-center gap-1 group">
+                <a href="#" className={`${isDarkMode ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-500'} inline-flex items-center gap-1 group`}>
                   View Details
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 transform group-hover:translate-x-1 transition-transform" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
@@ -325,18 +325,18 @@ function App() {
                 </a>
               </div>
             </motion.div>
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-gray-900 rounded-xl overflow-hidden group">
+            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className={`${isDarkMode ? 'bg-gray-900' : 'bg-gray-50 shadow-lg'} rounded-xl overflow-hidden group`}>
               <div className="h-48 overflow-hidden">
                 <img src="https://picsum.photos/seed/project2/800/400 " alt="Parking Management" className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" />
               </div>
               <div className="p-6">
                 <h3 className="text-xl font-bold mb-2">Basic Parking Management App</h3>
-                <p className="text-gray-400 mb-4">Simple application for managing parking spaces and reservations.</p>
+                <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-700'} mb-4`}>Simple application for managing parking spaces and reservations.</p>
                 <div className="flex flex-wrap gap-2 mb-4">
-                  <span className="bg-blue-900/50 px-2 py-1 rounded text-sm">React Native</span>
-                  <span className="bg-blue-900/50 px-2 py-1 rounded text-sm">Firebase</span>
+                  <span className={`${isDarkMode ? 'bg-blue-900/50' : 'bg-blue-100 text-blue-700'} px-2 py-1 rounded text-sm`}>React Native</span>
+                  <span className={`${isDarkMode ? 'bg-blue-900/50' : 'bg-blue-100 text-blue-700'} px-2 py-1 rounded text-sm`}>Firebase</span>
                 </div>
-                <a href="#" className="text-blue-400 hover:text-blue-300 inline-flex items-center gap-1 group">
+                <a href="#" className={`${isDarkMode ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-500'} inline-flex items-center gap-1 group`}>
                   View Details
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 transform group-hover:translate-x-1 transition-transform" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
@@ -355,26 +355,26 @@ function App() {
             Contact Me
           </motion.h2>
           <div className="max-w-3xl mx-auto">
-            <motion.form initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-gray-800 p-6 rounded-xl space-y-6">
+            <motion.form initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className={`${isDarkMode ? 'bg-gray-800' : 'bg-white shadow-xl'} p-6 rounded-xl space-y-6`}>
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-1">Name</label>
-                  <input type="text" id="name" className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white dark:placeholder-gray-400" placeholder="Your name" />
+                  <label htmlFor="name" className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-1`}>Name</label>
+                  <input type="text" id="name" className={`w-full ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'} border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500`} placeholder="Your name" />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">Email</label>
-                  <input type="email" id="email" className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white dark:placeholder-gray-400" placeholder="your@email.com" />
+                  <label htmlFor="email" className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-1`}>Email</label>
+                  <input type="email" id="email" className={`w-full ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'} border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500`} placeholder="your@email.com" />
                 </div>
               </div>
               <div>
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-300 mb-1">Subject</label>
-                <input type="text" id="subject" className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white dark:placeholder-gray-400" placeholder="What's this about?" />
+                <label htmlFor="subject" className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-1`}>Subject</label>
+                <input type="text" id="subject" className={`w-full ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'} border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500`} placeholder="What's this about?" />
               </div>
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-1">Message</label>
-                <textarea id="message" rows="5" className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white dark:placeholder-gray-400" placeholder="Let me know how I can help..."></textarea>
+                <label htmlFor="message" className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-1`}>Message</label>
+                <textarea id="message" rows="5" className={`w-full ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'} border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500`} placeholder="Let me know how I can help..."></textarea>
               </div>
-              <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} type="submit" className="w-full md:w-auto px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors shadow-lg">
+              <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} type="submit" className={`w-full md:w-auto px-6 py-3 ${isDarkMode ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-blue-500 hover:bg-blue-600 text-white'} rounded-lg font-medium transition-colors shadow-lg`}>
                 Send Message
               </motion.button>
             </motion.form>
@@ -383,9 +383,9 @@ function App() {
       </section>
 
       {/* Footer */}
-      <footer className="py-6 bg-dark border-t border-gray-800">
-        <div className="container mx-auto px-4 text-center text-gray-500">
-          <p>© 2025 Rajveer Singh. All rights reserved.</p>
+      <footer className={`py-6 ${isDarkMode ? 'bg-dark border-gray-800' : 'bg-gray-100 border-gray-300'} border-t`}>
+        <div className="container mx-auto px-4 text-center">
+          <p className={`${isDarkMode ? 'text-gray-500' : 'text-gray-600'}`}>© 2025 Rajveer Singh. All rights reserved.</p>
         </div>
       </footer>
     </div>
