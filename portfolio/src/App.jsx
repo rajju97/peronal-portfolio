@@ -133,9 +133,9 @@ function App() {
         </Parallax>
 
         <div className="container mx-auto px-4 relative z-10">
-          <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="max-w-2xl">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 text-white">Frontend Developer</h1>
-            <p className="text-lg md:text-xl text-gray-300 mb-8">Building responsive and scalable web applications with modern technologies. 3+ years of experience.</p>
+          <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className={`max-w-2xl ${!isDarkMode ? 'bg-slate-100/80 backdrop-blur-md p-6 rounded-lg shadow-lg' : ''}`}>
+            <h1 className={`text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Frontend Developer</h1>
+            <p className={`text-lg md:text-xl mb-8 ${isDarkMode ? 'text-gray-300' : 'text-slate-700'}`}>Building responsive and scalable web applications with modern technologies. 3+ years of experience.</p>
             <div className="flex flex-wrap gap-4">
               <motion.button 
                 whileHover={{ scale: 1.05 }} 
