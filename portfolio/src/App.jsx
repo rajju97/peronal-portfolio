@@ -1,6 +1,11 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Parallax } from 'react-scroll-parallax';
+import gsap from 'gsap';
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 // Icons
 const MailIcon = () => (
@@ -43,12 +48,44 @@ function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [isDarkMode, setIsDarkMode] = useState(true);
+  const containerRef = useRef(null);
   
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
     document.documentElement.classList.toggle('dark', isDarkMode);
     document.documentElement.classList.toggle('light', !isDarkMode);
   };
+
+  useGSAP(() => {
+    // Experience Line Animation
+    gsap.utils.toArray('.experience-line').forEach(line => {
+      gsap.to(line, {
+        height: '100%',
+        duration: 1.5,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: line.parentElement,
+          scroller: containerRef.current,
+          start: 'top 80%',
+          toggleActions: 'play none none reverse'
+        }
+      });
+    });
+
+    // Custom Cursor
+    const cursor = document.getElementById('custom-cursor');
+    const onMouseMove = (e) => {
+      gsap.to(cursor, {
+        x: e.clientX,
+        y: e.clientY,
+        duration: 0.1,
+        ease: "power2.out"
+      });
+    };
+    window.addEventListener('mousemove', onMouseMove);
+
+    return () => window.removeEventListener('mousemove', onMouseMove);
+  });
 
   const handleScroll = (e) => {
     const scrollTop = e.currentTarget.scrollTop;
@@ -67,7 +104,7 @@ function App() {
   };
 
   return (
-    <div className={`${isDarkMode ? 'bg-gradient-to-br from-dark via-gray-900 to-gray-800' : 'bg-gradient-to-br from-sky-100 via-slate-50 to-white'} ${isDarkMode ? 'text-white' : 'text-gray-900'} overflow-y-scroll h-screen snap-y snap-mandatory`} onScroll={handleScroll}>
+    <div ref={containerRef} className={`${isDarkMode ? 'bg-gradient-to-br from-dark via-gray-900 to-gray-800' : 'bg-gradient-to-br from-sky-100 via-slate-50 to-white'} ${isDarkMode ? 'text-white' : 'text-gray-900'} overflow-y-scroll h-screen snap-y snap-mandatory`} onScroll={handleScroll}>
       
       {/* Navigation */}
       <nav className={`fixed top-0 left-0 right-0 z-50 ${isDarkMode ? 'bg-dark bg-opacity-90' : 'bg-white bg-opacity-90'} backdrop-filter backdrop-blur-lg transition-all duration-300`}>
@@ -266,7 +303,8 @@ function App() {
           </motion.h2>
           <div className="space-y-12">
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className={`${isDarkMode ? 'bg-gray-800' : 'bg-white'} p-6 rounded-xl relative shadow-lg`}>
-              <div className="border-l-4 border-blue-500 pl-4">
+              <div className="relative pl-6">
+                <div className="experience-line absolute left-0 top-0 w-1 bg-blue-500 rounded-full" style={{ height: '0%' }}></div>
                 <h3 className="text-xl font-bold">SDE-1 at Lynkit Private Solutions</h3>
                 <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mt-1`}>New Delhi | March 2023 - Present</p>
                 <ul className={`mt-4 space-y-2 list-disc pl-6 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
@@ -281,7 +319,8 @@ function App() {
               </div>
             </motion.div>
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className={`${isDarkMode ? 'bg-gray-800' : 'bg-white'} p-6 rounded-xl relative shadow-lg`}>
-              <div className="border-l-4 border-blue-500 pl-4">
+              <div className="relative pl-6">
+                <div className="experience-line absolute left-0 top-0 w-1 bg-blue-500 rounded-full" style={{ height: '0%' }}></div>
                 <h3 className="text-xl font-bold">Product Engineer at Intellect Design Arena</h3>
                 <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mt-1`}>Mumbai | June 2022 - January 2023</p>
                 <ul className={`mt-4 space-y-2 list-disc pl-6 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
@@ -388,6 +427,13 @@ function App() {
           <p className={`${isDarkMode ? 'text-gray-500' : 'text-gray-600'}`}>© 2025 Rajveer Singh. All rights reserved.</p>
         </div>
       </footer>
+
+      {/* Custom Cursor */}
+      <div
+        id="custom-cursor"
+        className={`fixed w-6 h-6 rounded-full border-2 pointer-events-none z-[100] -translate-x-1/2 -translate-y-1/2 hidden md:block ${isDarkMode ? 'border-blue-400 bg-blue-400/20' : 'border-blue-600 bg-blue-600/20'}`}
+        style={{ left: 0, top: 0 }}
+      />
     </div>
   );
 }
